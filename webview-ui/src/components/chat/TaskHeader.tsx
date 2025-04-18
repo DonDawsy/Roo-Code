@@ -1,6 +1,5 @@
 import React, { memo, useMemo, useRef, useState } from "react"
 import { useWindowSize } from "react-use"
-import { VSCodeButton } from "@vscode/webview-ui-toolkit/react"
 import prettyBytes from "pretty-bytes"
 import { useTranslation } from "react-i18next"
 
@@ -17,6 +16,8 @@ import { useExtensionState } from "../../context/ExtensionStateContext"
 import Thumbnails from "../common/Thumbnails"
 import { normalizeApiConfiguration } from "../settings/ApiOptions"
 import { DeleteTaskDialog } from "../history/DeleteTaskDialog"
+import { cn } from "@/lib/utils"
+import { VSCodeBadge } from "@vscode/webview-ui-toolkit/react"
 
 interface TaskHeaderProps {
 	task: ClineMessage
@@ -55,10 +56,15 @@ const TaskHeader: React.FC<TaskHeaderProps> = ({
 	const shouldShowPromptCacheInfo = doesModelSupportPromptCache && apiConfiguration?.apiProvider !== "openrouter"
 
 	return (
-		<div className="py-[10px] px-[13px]">
+		<div className="py-2 px-3">
 			<div
-				className={`rounded p-[10px] flex flex-col gap-[6px] relative z-1 outline hover:outline-vscode-badge-foreground hover:text-vscode-badge-foreground transition-color duration-500 ${!!isTaskExpanded ? "outline-vscode-badge-foreground text-vscode-badge-foreground" : "outline-vscode-badge-foreground/80 text-vscode-badge-foreground/80"}`}>
-				<div className="flex justify-between items-center">
+				className={cn(
+					"rounded-xs p-2.5 flex flex-col gap-1.5 relative z-1 border",
+					!!isTaskExpanded
+						? "border-vscode-panel-border text-vscode-foreground"
+						: "border-vscode-panel-border/80 text-vscode-foreground/80",
+				)}>
+				<div className="flex justify-between items-center gap-2">
 					<div
 						className="flex items-center cursor-pointer -ml-0.5 select-none grow min-w-0"
 						onClick={() => setIsTaskExpanded(!isTaskExpanded)}>
@@ -73,14 +79,14 @@ const TaskHeader: React.FC<TaskHeaderProps> = ({
 							{!isTaskExpanded && <span className="ml-1">{highlightMentions(task.text, false)}</span>}
 						</div>
 					</div>
-
-					<VSCodeButton
-						appearance="icon"
+					<Button
+						variant="ghost"
+						size="icon"
 						onClick={onClose}
-						className="ml-1.5 shrink-0 text-vscode-badge-foreground"
-						title={t("chat:task.closeAndStart")}>
-						<span className="codicon codicon-close"></span>
-					</VSCodeButton>
+						title={t("chat:task.closeAndStart")}
+						className="shrink-0 w-5 h-5">
+						<span className="codicon codicon-close" />
+					</Button>
 				</div>
 				{/* Collapsed state: Track context and cost if we have any */}
 				{!isTaskExpanded && contextWindow > 0 && (
@@ -90,11 +96,7 @@ const TaskHeader: React.FC<TaskHeaderProps> = ({
 							contextTokens={contextTokens || 0}
 							maxTokens={getMaxTokensForModel(selectedModelInfo, apiConfiguration)}
 						/>
-						{!!totalCost && (
-							<div className="ml-2.5 bg-vscode-editor-foreground text-vscode-editor-background py-0.5 px-1 rounded-full text-[11px] font-medium inline-block shrink-0">
-								${totalCost?.toFixed(2)}
-							</div>
-						)}
+						{!!totalCost && <VSCodeBadge>${totalCost.toFixed(2)}</VSCodeBadge>}
 					</div>
 				)}
 				{/* Expanded state: Show task text and images */}
@@ -271,18 +273,18 @@ const ContextWindowProgress = ({ contextWindow, contextTokens, maxTokens }: Cont
 				<div className="flex-1 relative">
 					{/* Invisible overlay for hover area */}
 					<div
-						className="absolute w-full cursor-pointer h-4 -top-[7px] z-5"
+						className="absolute w-full h-4 -top-[7px] z-5"
 						title={t("chat:tokenProgress.availableSpace", { amount: formatLargeNumber(availableSize) })}
 						data-testid="context-available-space"
 					/>
 
 					{/* Main progress bar container */}
-					<div className="flex items-center h-1 rounded-[2px] overflow-hidden w-full bg-[color-mix(in_srgb,var(--vscode-badge-foreground)_20%,transparent)]">
+					<div className="flex items-center h-1 rounded-[2px] overflow-hidden w-full bg-[color-mix(in_srgb,var(--vscode-foreground)_20%,transparent)]">
 						{/* Current tokens container */}
 						<div className="relative h-full" style={{ width: `${currentPercent}%` }}>
 							{/* Invisible overlay for current tokens section */}
 							<div
-								className="absolute cursor-pointer h-4 -top-[7px] w-full z-6"
+								className="absolute h-4 -top-[7px] w-full z-6"
 								title={t("chat:tokenProgress.tokensUsed", {
 									used: formatLargeNumber(safeContextTokens),
 									total: formatLargeNumber(safeContextWindow),
@@ -290,21 +292,21 @@ const ContextWindowProgress = ({ contextWindow, contextTokens, maxTokens }: Cont
 								data-testid="context-tokens-used"
 							/>
 							{/* Current tokens used - darkest */}
-							<div className="h-full w-full bg-[var(--vscode-badge-foreground)] transition-width duration-300 ease-out" />
+							<div className="h-full w-full bg-[var(--vscode-foreground)] transition-width duration-300 ease-out" />
 						</div>
 
 						{/* Container for reserved tokens */}
 						<div className="relative h-full" style={{ width: `${reservedPercent}%` }}>
 							{/* Invisible overlay for reserved section */}
 							<div
-								className="absolute cursor-pointer h-4 -top-[7px] w-full z-6"
+								className="absolute h-4 -top-[7px] w-full z-6"
 								title={t("chat:tokenProgress.reservedForResponse", {
 									amount: formatLargeNumber(reservedForOutput),
 								})}
 								data-testid="context-reserved-tokens"
 							/>
 							{/* Reserved for output section - medium gray */}
-							<div className="h-full w-full bg-[color-mix(in_srgb,var(--vscode-badge-foreground)_30%,transparent)] transition-width duration-300 ease-out" />
+							<div className="h-full w-full bg-[color-mix(in_srgb,var(--vscode-foreground)_30%,transparent)] transition-width duration-300 ease-out" />
 						</div>
 
 						{/* Empty section (if any) */}
@@ -312,7 +314,7 @@ const ContextWindowProgress = ({ contextWindow, contextTokens, maxTokens }: Cont
 							<div className="relative h-full" style={{ width: `${availablePercent}%` }}>
 								{/* Invisible overlay for available space */}
 								<div
-									className="absolute cursor-pointer h-4 -top-[7px] w-full z-6"
+									className="absolute h-4 -top-[7px] w-full z-6"
 									title={t("chat:tokenProgress.availableSpace", {
 										amount: formatLargeNumber(availableSize),
 									})}
