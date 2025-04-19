@@ -47,13 +47,13 @@ Detaylı güncellemeler ve düzeltmeler için [CHANGELOG](../CHANGELOG.md) dosya
 
 ---
 
-## 🎉 Roo Code 3.12 Yayınlandı
+## 🎉 Roo Code 3.13 Yayınlandı
 
-Roo Code 3.12 geri bildirimlerinize dayanarak yeni özellikler ve iyileştirmeler getiriyor!
+Roo Code 3.13 geri bildirimlerinize dayanarak yeni özellikler ve iyileştirmeler getiriyor!
 
-- **Grok Desteği** - xAI sağlayıcısı eklendi ve OpenRouter'daki Grok modelleri için akıl yürütme çabası seçenekleri sunuldu
-- **Diff Düzenleme İyileştirmeleri** - Profil başına yapılandırma seçenekleri ve daha az hata için geliştirilmiş dize normalleştirme
-- **Daha Hızlı Kontrol Noktaları** - Daha hızlı ve daha güvenilir kontrol noktaları
+- **Gemini 2.5 Flash Thinking** - Artık Gemini 2.5 Flash'ın düşünme varyantını kullanabilir ve düşünme token bütçesini belirleyebilirsiniz.
+- **UI İyileştirmeleri** - Görev başlığı, sohbet görünümü, geçmiş önizlemesi ve karşılama görünümü görsel olarak yükseltildi.
+- **Hata Düzeltmeleri** - Daha güvenilir diff düzenlemeleri ve daha fazlası.
 
 ---
 

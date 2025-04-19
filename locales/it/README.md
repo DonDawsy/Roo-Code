@@ -47,13 +47,13 @@ Consulta il [CHANGELOG](../CHANGELOG.md) per aggiornamenti dettagliati e correzi
 
 ---
 
-## 🎉 Roo Code 3.12 Rilasciato
+## 🎉 Roo Code 3.13 Rilasciato
 
-Roo Code 3.12 porta nuove funzionalità e miglioramenti basati sui tuoi feedback!
+Roo Code 3.13 porta nuove funzionalità e miglioramenti basati sui tuoi feedback!
 
-- **Supporto Grok** - Aggiunto il provider xAI e opzioni di sforzo di ragionamento per i modelli Grok su OpenRouter.
-- **Miglioramenti all'editing delle differenze** - Configurazione per profilo e migliore normalizzazione delle stringhe per meno errori.
-- **Checkpoint più veloci** - Checkpoint più rapidi e affidabili.
+- **Gemini 2.5 Flash Thinking** - Ora puoi utilizzare la variante thinking di Gemini 2.5 Flash e specificare un budget di token per il thinking.
+- **Miglioramenti UI** - L'intestazione delle attività, la vista chat, l'anteprima della cronologia e la vista di benvenuto sono state visivamente migliorate.
+- **Correzioni di bug** - Editing delle differenze più affidabile e altro ancora.
 
 ---
 
